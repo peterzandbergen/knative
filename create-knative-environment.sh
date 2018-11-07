@@ -2,10 +2,17 @@
 
 # Based on https://github.com/knative/docs/blob/master/install/Knative-with-GKE.md
 
-# Create cluster in script
-IN_SCRIPT=yes
-CLUSTER_NAME=knative
-CLUSTER_ZONE=europe-west4-a
+# Default cluster settings
+DEF_CLUSTER_NAME=knative
+DEF_CLUSTER_ZONE=europe-west4-a
+
+if [ -z ${CLUSTER_NAME} ] ; then
+    CLUSTER_NAME=${DEV_CLUSTER_NAME}
+fi
+
+if [ -z ${CLUSTER_ZONE} ] ; then
+    CLUSTER_ZONE=${DEV_CLUSTER_ZONE}
+fi
 
 # Set the default project
 gcloud config set project gke-test-myhops
@@ -28,15 +35,8 @@ kubectl create clusterrolebinding cluster-admin-binding \
 # Intall istio
 kubectl apply --filename https://raw.githubusercontent.com/knative/serving/v0.2.0/third_party/istio-1.0.2/istio.yaml
 
-# Monitor istio deployment
-# kubectl get pods --namespace istio-system
-
 # Install knative serving and build
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.2.0/release.yaml
-
-# Monitor knative deployment
-# kubectl get pods --namespace knative-serving
-# kubectl get pods --namespace knative-build
 
 # Install kaniko build template
 kubectl apply -f https://raw.githubusercontent.com/knative/build-templates/master/kaniko/kaniko.yaml
