@@ -14,9 +14,8 @@ if [ -z ${CLUSTER_ZONE} ] ; then
     CLUSTER_ZONE=${DEF_CLUSTER_ZONE}
 fi
 
-echo $CLUSTER_NAME
-echo $CLUSTER_ZONE
+echo 
+echo About to delete gke cluster $CLUSTER_NAME in zone $CLUSTER_ZONE, you have 10 seconds to abort...
+sleep 10
 
-sleep 30
-
-gcloud container clusters delete $CLUSTER_NAME --zone $CLUSTER_ZONE
+yes | gcloud container clusters delete $CLUSTER_NAME --zone $CLUSTER_ZONE
