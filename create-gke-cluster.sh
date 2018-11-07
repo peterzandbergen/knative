@@ -7,4 +7,3 @@ IN_SCRIPT=yes
 CLUSTER_NAME=knative
 CLUSTER_ZONE=europe-west4-a
 
-gcloud container clusters delete $CLUSTER_NAME --zone $CLUSTER_ZONE

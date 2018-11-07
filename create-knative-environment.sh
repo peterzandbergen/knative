@@ -41,3 +41,11 @@ kubectl apply --filename https://github.com/knative/serving/releases/download/v0
 # Install kaniko build template
 kubectl apply -f https://raw.githubusercontent.com/knative/build-templates/master/kaniko/kaniko.yaml
 
+NUM_BAD_DEPLOYMENTS=$(kubectl get deployments --all-namespaces --template="{{range.items}} {{ if not .status.availableReplicas }} not {{end}} {{end}}")
+
+while [[ $(echo ${NUM_BAD_DEPLOYMENTS} | wc -w) -ne "0" ]] ; do
+    echo Waiting for knative to be deployed ...
+    sleep 10
+    NUM_BAD_DEPLOYMENTS=$(kubectl get deployments --all-namespaces --template="{{range.items}} {{ if not .status.availableReplicas }} not {{end}} {{end}}")
+    # NUM_BAD_DEPLOYMENTS=''
+done
