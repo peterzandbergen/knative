@@ -14,6 +14,11 @@ if [ -z ${CLUSTER_ZONE} ] ; then
     CLUSTER_ZONE=${DEV_CLUSTER_ZONE}
 fi
 
+echo $CLUSTER_NAME
+echo $CLUSTER_ZONE
+
+sleep 30
+
 # Set the default project
 gcloud config set project gke-test-myhops
 
